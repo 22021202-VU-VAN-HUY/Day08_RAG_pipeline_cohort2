@@ -94,6 +94,65 @@ def rerank_mmr(
     ]
 
 
+def rerank_rrf(
+    ranked_lists: list[list[dict]],
+    top_k: int = 5,
+    k_value: float = 60.0,
+) -> list[dict]:
+    """
+    Reciprocal Rank Fusion.
+
+    Args:
+        ranked_lists: Danh sách các ranking output từ semantic/lexical search.
+        top_k: Số lượng kết quả tối đa.
+        k_value: Hằng số khử nghịch đảo rank.
+
+    Returns:
+        List of merged candidates with combined scores.
+    """
+    if top_k <= 0 or not ranked_lists:
+        return []
+
+    aggregated: dict[str, dict] = {}
+
+    def _make_key(item: dict) -> str:
+        metadata = item.get("metadata") or {}
+        path = str(metadata.get("path", ""))
+        return f"{item.get('content', '').strip()}||{path}"
+
+    for ranked_list in ranked_lists:
+        for rank, item in enumerate(ranked_list, start=1):
+            key = _make_key(item)
+            if key not in aggregated:
+                aggregated[key] = {
+                    "content": item.get("content", ""),
+                    "metadata": dict(item.get("metadata", {})),
+                    "rrf_score": 0.0,
+                    "original_scores": [],
+                }
+
+            aggregated[key]["rrf_score"] += 1.0 / (k_value + rank)
+            if item.get("score") is not None:
+                aggregated[key]["original_scores"].append(float(item["score"]))
+
+    merged = []
+    for item in aggregated.values():
+        original_scores = item["original_scores"]
+        combined_score = max(original_scores) if original_scores else item["rrf_score"]
+        merged.append({
+            "content": item["content"],
+            "metadata": item["metadata"],
+            "score": float(combined_score),
+            "rrf_score": float(item["rrf_score"]),
+        })
+
+    merged.sort(
+        key=lambda entry: (entry["rrf_score"], entry["score"]),
+        reverse=True,
+    )
+    return merged[:top_k]
+
+
 # =============================================================================
 # Main rerank interface
 # =============================================================================
