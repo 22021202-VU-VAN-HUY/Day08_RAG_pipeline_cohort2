@@ -75,20 +75,12 @@ def reorder_for_llm(chunks: list[dict]) -> list[dict]:
     Returns:
         List reordered để maximize LLM attention.
     """
-    # TODO: Implement reordering
-    #
-    # if len(chunks) <= 2:
-    #     return chunks
-    #
-    # # Split into first half (important → đầu) and second half (important → cuối)
-    # reordered = []
-    # for i in range(0, len(chunks), 2):
-    #     reordered.append(chunks[i])  # Odd positions go first
-    # for i in range(len(chunks) - 1 - (len(chunks) % 2 == 0), 0, -2):
-    #     reordered.append(chunks[i])  # Even positions go last (reversed)
-    #
-    # return reordered
-    raise NotImplementedError("Implement reorder_for_llm")
+    if not chunks or len(chunks) <= 2:
+        return chunks
+
+    first_group = chunks[0::2]
+    second_group = chunks[1::2][::-1]
+    return first_group + second_group
 
 
 # =============================================================================
@@ -106,18 +98,19 @@ def format_context(chunks: list[dict]) -> str:
     Returns:
         Formatted context string.
     """
-    # TODO: Implement context formatting
-    #
-    # context_parts = []
-    # for i, chunk in enumerate(chunks, 1):
-    #     source = chunk.get("metadata", {}).get("source", f"Source {i}")
-    #     doc_type = chunk.get("metadata", {}).get("type", "unknown")
-    #     context_parts.append(
-    #         f"[Document {i} | Source: {source} | Type: {doc_type}]\n"
-    #         f"{chunk['content']}\n"
-    #     )
-    # return "\n---\n".join(context_parts)
-    raise NotImplementedError("Implement format_context")
+    context_parts = []
+    for idx, chunk in enumerate(chunks, start=1):
+        metadata = chunk.get("metadata", {}) or {}
+        source = metadata.get("source") or metadata.get("path") or f"Source {idx}"
+        doc_type = metadata.get("type", "unknown")
+        score = chunk.get("score")
+        score_label = f" | Score: {score:.3f}" if isinstance(score, (int, float)) else ""
+
+        header = f"[Context {idx} | Source: {source} | Type: {doc_type}{score_label}]"
+        content = chunk.get("content", "").strip()
+        context_parts.append(f"{header}\n{content}")
+
+    return "\n\n---\n\n".join(context_parts)
 
 
 # =============================================================================
@@ -146,43 +139,101 @@ def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
             'retrieval_source': str  # 'hybrid' hoặc 'pageindex'
         }
     """
-    # TODO: Implement generation pipeline
-    #
-    # # Step 1: Retrieve
-    # chunks = retrieve(query, top_k=top_k)
-    #
-    # # Step 2: Reorder
-    # reordered = reorder_for_llm(chunks)
-    #
-    # # Step 3: Format context
-    # context = format_context(reordered)
-    #
-    # # Step 4: Build prompt
-    # user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
-    #
-    # # Step 5: Call LLM
-    # from openai import OpenAI
-    # client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    #
-    # response = client.chat.completions.create(
-    #     model="gpt-4o-mini",
-    #     messages=[
-    #         {"role": "system", "content": SYSTEM_PROMPT},
-    #         {"role": "user", "content": user_message}
-    #     ],
-    #     temperature=TEMPERATURE,
-    #     top_p=TOP_P,
-    # )
-    #
-    # answer = response.choices[0].message.content
-    #
-    # # Step 6: Return
-    # return {
-    #     "answer": answer,
-    #     "sources": chunks,
-    #     "retrieval_source": chunks[0].get("source", "hybrid") if chunks else "none"
-    # }
-    raise NotImplementedError("Implement generate_with_citation")
+    if top_k <= 0:
+        return {
+            "answer": "Tôi không thể xác minh thông tin này từ nguồn hiện có.",
+            "sources": [],
+            "retrieval_source": "none",
+        }
+
+    chunks = retrieve(query, top_k=top_k)
+    reordered = reorder_for_llm(chunks)
+    context = format_context(reordered)
+    user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
+
+    answer = None
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+    if openai_api_key:
+        try:
+            try:
+                from openai import OpenAI
+                client = OpenAI(api_key=openai_api_key)
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_message},
+                    ],
+                    temperature=TEMPERATURE,
+                    top_p=TOP_P,
+                )
+            except Exception:
+                import openai
+                openai.api_key = openai_api_key
+                response = openai.ChatCompletion.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_message},
+                    ],
+                    temperature=TEMPERATURE,
+                    top_p=TOP_P,
+                )
+
+            answer = _extract_answer_from_response(response)
+        except Exception:
+            answer = None
+
+    if not answer:
+        answer = _fallback_answer(query, reordered)
+
+    return {
+        "answer": answer,
+        "sources": reordered,
+        "retrieval_source": reordered[0].get("source", "hybrid") if reordered else "none",
+    }
+
+
+def _extract_answer_from_response(response) -> str:
+    if response is None:
+        return ""
+
+    choices = []
+    if isinstance(response, dict):
+        choices = response.get("choices", [])
+    else:
+        choices = getattr(response, "choices", [])
+
+    if not choices:
+        return ""
+
+    choice = choices[0]
+    if isinstance(choice, dict):
+        message = choice.get("message") or {}
+        return str(message.get("content") or choice.get("text") or "").strip()
+
+    message = getattr(choice, "message", None)
+    if message is not None:
+        return str(getattr(message, "content", "") or getattr(message, "text", "")).strip()
+
+    return str(getattr(choice, "text", "")).strip()
+
+
+def _fallback_answer(query: str, chunks: list[dict]) -> str:
+    if not chunks:
+        return "Tôi không thể xác minh thông tin này từ nguồn hiện có."
+
+    top_chunk = chunks[0]
+    metadata = top_chunk.get("metadata", {}) or {}
+    source = metadata.get("source") or metadata.get("path") or "nguồn hiện có"
+    text = top_chunk.get("content", "").strip()
+    first_sentence = text.split(".")[0].strip()
+    if first_sentence:
+        return (
+            f"Dựa trên nguồn [{source}], thông tin liên quan là: {first_sentence}."
+            " Nếu cần thêm chi tiết, hãy tham khảo thêm context kèm theo."
+        )
+    return "Tôi không thể xác minh thông tin này từ nguồn hiện có."
 
 
 if __name__ == "__main__":
