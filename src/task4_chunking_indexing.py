@@ -27,15 +27,13 @@ Cài đặt:
 """
 
 from pathlib import Path
-import hashlib
 import json
-import math
 import re
-import unicodedata
 
 STANDARDIZED_DIR = Path(__file__).parent.parent / "data" / "standardized"
 INDEX_DIR = Path(__file__).parent.parent / "data" / "index"
 INDEX_PATH = INDEX_DIR / "local_vector_store.json"
+_EMBEDDING_MODEL_INSTANCE = None
 
 
 # =============================================================================
@@ -51,12 +49,12 @@ CHUNK_SIZE = 500
 CHUNK_OVERLAP = 75
 CHUNKING_METHOD = "recursive"
 
-# Embedding model dùng local-hashing-v1 với EMBEDDING_DIM=384. Lựa chọn này giúp
-# pipeline chạy offline ổn định trên Windows khi chưa cài được
-# sentence-transformers/Weaviate; vector vẫn là dense vector và tìm kiếm được
-# bằng cosine similarity. Nếu môi trường đã sẵn sàng, có thể thay embed_text()
-# bằng BAAI/bge-m3 (1024 dim) để tối ưu tiếng Việt.
-EMBEDDING_MODEL = "local-hashing-v1"
+# Embedding model dùng sentence-transformers/all-MiniLM-L6-v2 với
+# EMBEDDING_DIM=384. Đây là model nhẹ, tốc độ nhanh, dễ chạy local cho demo và
+# vẫn tạo dense vector thật để semantic search bằng cosine similarity. Với tiếng
+# Việt chuyên sâu có thể đổi sang BAAI/bge-m3, nhưng MiniLM phù hợp hơn khi cần
+# cài đặt nhanh và tài nguyên máy hạn chế.
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 EMBEDDING_DIM = 384
 
 # Vector store dùng local_json: index_to_vectorstore() lưu toàn bộ chunks của
@@ -166,31 +164,24 @@ def chunk_documents(documents: list[dict]) -> list[dict]:
     return chunks
 
 
-def _normalize_for_tokens(text: str) -> str:
-    text = text.lower().replace("đ", "d")
-    text = unicodedata.normalize("NFD", text)
-    return "".join(char for char in text if unicodedata.category(char) != "Mn")
+def get_embedding_model():
+    """Load SentenceTransformer model once and reuse it."""
+    global _EMBEDDING_MODEL_INSTANCE
+    if _EMBEDDING_MODEL_INSTANCE is None:
+        from sentence_transformers import SentenceTransformer
 
-
-def tokenize(text: str) -> list[str]:
-    """Tokenize Vietnamese text with accent-insensitive matching."""
-    normalized = _normalize_for_tokens(text)
-    return re.findall(r"[a-z0-9]+", normalized)
+        _EMBEDDING_MODEL_INSTANCE = SentenceTransformer(
+            EMBEDDING_MODEL,
+            local_files_only=True,
+        )
+    return _EMBEDDING_MODEL_INSTANCE
 
 
 def embed_text(text: str) -> list[float]:
-    """Create a deterministic dense hashing embedding."""
-    vector = [0.0] * EMBEDDING_DIM
-    for token in tokenize(text):
-        digest = hashlib.blake2b(token.encode("utf-8"), digest_size=8).digest()
-        bucket = int.from_bytes(digest[:4], "big") % EMBEDDING_DIM
-        sign = 1.0 if digest[4] % 2 == 0 else -1.0
-        vector[bucket] += sign
-
-    norm = math.sqrt(sum(value * value for value in vector))
-    if norm == 0:
-        return vector
-    return [value / norm for value in vector]
+    """Create a MiniLM embedding normalized for cosine similarity."""
+    model = get_embedding_model()
+    embedding = model.encode(text, normalize_embeddings=True)
+    return embedding.tolist()
 
 
 def cosine_similarity(left: list[float], right: list[float]) -> float:
@@ -204,12 +195,16 @@ def embed_chunks(chunks: list[dict]) -> list[dict]:
     Returns:
         Mỗi chunk dict được thêm key 'embedding': list[float]
     """
+    model = get_embedding_model()
+    texts = [chunk["content"] for chunk in chunks]
+    embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=False)
+
     embedded = []
-    for chunk in chunks:
+    for chunk, embedding in zip(chunks, embeddings):
         embedded_chunk = {
             "content": chunk["content"],
             "metadata": dict(chunk.get("metadata", {})),
-            "embedding": embed_text(chunk["content"]),
+            "embedding": embedding.tolist(),
         }
         embedded.append(embedded_chunk)
     return embedded

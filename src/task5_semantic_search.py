@@ -14,6 +14,7 @@ import json
 
 try:
     from src.task4_chunking_indexing import (
+        EMBEDDING_MODEL,
         INDEX_PATH,
         chunk_documents,
         cosine_similarity,
@@ -24,6 +25,7 @@ try:
     )
 except ModuleNotFoundError:
     from task4_chunking_indexing import (
+        EMBEDDING_MODEL,
         INDEX_PATH,
         chunk_documents,
         cosine_similarity,
@@ -38,8 +40,9 @@ def _load_or_build_index() -> list[dict]:
     """Load local vector index, building it from standardized markdown if needed."""
     if INDEX_PATH.exists():
         payload = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
+        config = payload.get("config", {})
         chunks = payload.get("chunks", [])
-        if chunks:
+        if chunks and config.get("embedding_model") == EMBEDDING_MODEL:
             return chunks
 
     documents = load_documents()
