@@ -39,26 +39,30 @@ INDEX_PATH = INDEX_DIR / "local_vector_store.json"
 
 
 # =============================================================================
-# CONFIGURATION — Giải thích lựa chọn của bạn trong comment
+# CẤU HÌNH — Giải thích lựa chọn theo yêu cầu Task 4
 # =============================================================================
 
-# Recursive character chunking is robust for mixed legal/news markdown. Legal
-# DOCX conversions do not always preserve clean headings, so a header splitter
-# would miss structure. 500 chars keeps chunks focused for citation snippets;
-# 75 chars overlap preserves sentence continuity near chunk boundaries.
+# Dùng recursive chunking vì dữ liệu gồm cả văn bản pháp luật và bài báo; các
+# file DOCX sau khi convert sang markdown không phải lúc nào cũng giữ heading
+# sạch, nên tách theo heading có thể bỏ sót cấu trúc. CHUNK_SIZE=500 giúp mỗi
+# chunk đủ ngắn để retrieval/citation tập trung; CHUNK_OVERLAP=75 giữ ngữ cảnh
+# ở ranh giới giữa hai chunk để tránh mất ý khi câu bị cắt.
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 75
 CHUNKING_METHOD = "recursive"
 
-# Local hashing embeddings keep the assignment runnable offline on Windows even
-# when sentence-transformers/Weaviate cannot be installed. The vector shape is
-# still dense and cosine-searchable; swapping to BAAI/bge-m3 later only requires
-# replacing embed_text().
+# Embedding model dùng local-hashing-v1 với EMBEDDING_DIM=384. Lựa chọn này giúp
+# pipeline chạy offline ổn định trên Windows khi chưa cài được
+# sentence-transformers/Weaviate; vector vẫn là dense vector và tìm kiếm được
+# bằng cosine similarity. Nếu môi trường đã sẵn sàng, có thể thay embed_text()
+# bằng BAAI/bge-m3 (1024 dim) để tối ưu tiếng Việt.
 EMBEDDING_MODEL = "local-hashing-v1"
 EMBEDDING_DIM = 384
 
-# Store vectors in a local JSON index for reproducible tests. Weaviate remains
-# the production recommendation from README when Docker/cloud is available.
+# Vector store dùng local_json: index_to_vectorstore() lưu toàn bộ chunks của
+# toàn bộ documents đã load vào data/index/local_vector_store.json để test tái
+# lập được. Weaviate vẫn là lựa chọn phù hợp cho production/demo khi có Docker
+# hoặc Weaviate Cloud.
 VECTOR_STORE = "local_json"
 
 
