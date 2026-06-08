@@ -23,6 +23,7 @@ rank-bm25>=0.2.2
 
 # Task 8 - PageIndex
 pageindex>=0.1.0
+reportlab>=4.0.0
 
 # Task 10 - Generation
 openai>=1.30.0
