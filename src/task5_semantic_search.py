@@ -10,6 +10,45 @@ Yêu cầu:
 """
 
 
+import json
+
+try:
+    from src.task4_chunking_indexing import (
+        INDEX_PATH,
+        chunk_documents,
+        cosine_similarity,
+        embed_chunks,
+        embed_text,
+        index_to_vectorstore,
+        load_documents,
+    )
+except ModuleNotFoundError:
+    from task4_chunking_indexing import (
+        INDEX_PATH,
+        chunk_documents,
+        cosine_similarity,
+        embed_chunks,
+        embed_text,
+        index_to_vectorstore,
+        load_documents,
+    )
+
+
+def _load_or_build_index() -> list[dict]:
+    """Load local vector index, building it from standardized markdown if needed."""
+    if INDEX_PATH.exists():
+        payload = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
+        chunks = payload.get("chunks", [])
+        if chunks:
+            return chunks
+
+    documents = load_documents()
+    chunks = chunk_documents(documents)
+    embedded_chunks = embed_chunks(chunks)
+    index_to_vectorstore(embedded_chunks)
+    return embedded_chunks
+
+
 def semantic_search(query: str, top_k: int = 10) -> list[dict]:
     """
     Tìm kiếm ngữ nghĩa sử dụng vector similarity.
@@ -26,41 +65,31 @@ def semantic_search(query: str, top_k: int = 10) -> list[dict]:
         }
         Sorted by score descending.
     """
-    # TODO: Implement semantic search
-    #
-    # Bước 1: Embed query bằng cùng model ở Task 4
-    # Bước 2: Query vector store (cosine similarity)
-    # Bước 3: Return top_k results
-    #
-    # Ví dụ với Weaviate:
-    # import weaviate
-    # from sentence_transformers import SentenceTransformer
-    #
-    # model = SentenceTransformer("BAAI/bge-m3")
-    # query_embedding = model.encode(query).tolist()
-    #
-    # client = weaviate.connect_to_local()
-    # collection = client.collections.get("DrugLawDocs")
-    #
-    # results = collection.query.near_vector(
-    #     near_vector=query_embedding,
-    #     limit=top_k,
-    #     return_metadata=MetadataQuery(distance=True)
-    # )
-    #
-    # return [
-    #     {
-    #         "content": obj.properties["content"],
-    #         "score": 1 - obj.metadata.distance,  # distance → similarity
-    #         "metadata": {"source": obj.properties["source"], ...}
-    #     }
-    #     for obj in results.objects
-    # ]
-    raise NotImplementedError("Implement semantic_search")
+    if top_k <= 0:
+        return []
+
+    query_embedding = embed_text(query)
+    chunks = _load_or_build_index()
+    results = []
+    for chunk in chunks:
+        score = cosine_similarity(query_embedding, chunk.get("embedding", []))
+        results.append({
+            "content": chunk.get("content", ""),
+            "score": float(score),
+            "metadata": dict(chunk.get("metadata", {})),
+        })
+
+    results.sort(key=lambda item: item["score"], reverse=True)
+    return results[:top_k]
+
+
+def _safe_display(text: str) -> str:
+    return text.encode("ascii", "backslashreplace").decode("ascii")
 
 
 if __name__ == "__main__":
     # Test
     results = semantic_search("hình phạt cho tội tàng trữ ma tuý", top_k=5)
     for r in results:
-        print(f"[{r['score']:.3f}] {r['content'][:100]}...")
+        preview = _safe_display(r["content"][:100])
+        print(f"[{r['score']:.3f}] {preview}...")
