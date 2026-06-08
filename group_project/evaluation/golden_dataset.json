@@ -1,77 +1,77 @@
 [
   {
+    "question": "Diễn viên hài Trần Hữu Tín bị phạt tù bao lâu vì tổ chức sử dụng trái phép chất ma túy?",
+    "expected_answer": "Diễn viên hài Trần Hữu Tín bị TAND Quận 8 TP.HCM tuyên phạt 7 năm 6 tháng tù về tội tổ chức sử dụng trái phép chất ma túy vào ngày 28/4/2023.",
+    "expected_context": "article_01_dien-vien-hai-tran-huu-tin"
+  },
+  {
+    "question": "Ca sĩ Chi Dân và người mẫu An Tây bị bắt vì lý do gì?",
+    "expected_answer": "Ca sĩ Chi Dân (tên thật Nguyễn Trung Hiếu) và người mẫu kiêm diễn viên Andrea Aybar (An Tây) bị Công an TP.HCM khởi tố, bắt tạm giam về tội tổ chức sử dụng trái phép chất ma túy vào tháng 11/2024.",
+    "expected_context": "article_02_loat-nghe-si-viet-tieu-tan-su-nghiep-vi-ma-tuy"
+  },
+  {
+    "question": "Châu Việt Cường bị xử lý như thế nào trong vụ án giết người liên quan ma túy?",
+    "expected_answer": "Ca sĩ Châu Việt Cường bị TAND Hà Nội tuyân phạt 13 năm tù về tội giết người. Tháng 3/2019 bị tuyên phạt, tháng 8/2019 ở phúc thẩm giảm xuống 11 năm tù. Sáng 5/1/2025, anh được ra tù trước thời hạn sau hơn 6 năm thụ án.",
+    "expected_context": "article_02_loat-nghe-si-viet-tieu-tan-su-nghiep-vi-ma-tuy"
+  },
+  {
+    "question": "Ca sĩ Chu Bin bị bắt vì liên quan đến ma túy vào thời gian nào?",
+    "expected_answer": "Tháng 6/2024, ca sĩ Chu Bin bị bắt khi công an phát hiện anh cùng 5 người khác đang sử dụng ma túy tại một căn nhà ở Quận 10, TP.HCM.",
+    "expected_context": "article_03_sao-viet-bi-bat-ngoi-tu-mat-danh-tieng-vi-chat-cam"
+  },
+  {
+    "question": "Người mẫu Nhikolai Đinh bị bắt vì liên quan đến hành vi gì?",
+    "expected_answer": "Người mẫu Nhikolai Đinh bị Công an Quận 1 (cũ) khởi tố, bắt tạm giam để điều tra về hành vi tàng trữ trái phép chất ma túy. Tại thời điểm bị bắt, cùng 9 người khác bị phát hiện có nhiều gói ma túy trên người.",
+    "expected_context": "article_03_sao-viet-bi-bat-ngoi-tu-mat-danh-tieng-vi-chat-cam"
+  },
+  {
+    "question": "NTK Nguyễn Công Trí bị bắt vì liên quan đến hoạt động gì?",
+    "expected_answer": "Tối 23/6/2025, Công an TP.HCM phát hiện NTK Nguyễn Công Trí và Trần Phú Long cùng nhau sử dụng trái phép chất ma túy tại nhà riêng ở Phường Tân Hưng, TP.HCM.",
+    "expected_context": "article_03_sao-viet-bi-bat-ngoi-tu-mat-danh-tieng-vi-chat-cam"
+  },
+  {
+    "question": "Ca sĩ Long Nhật và Sơn Ngọc Minh bị khởi tố vì hành vi gì?",
+    "expected_answer": "Ca sĩ Long Nhật và Sơn Ngọc Minh bị khởi tố vì liên quan đến ma túy. Công an TP.HCM đã khởi tố 71 bị can về các hành vi mua bán, tàng trữ và tổ chức sử dụng trái phép chất ma túy.",
+    "expected_context": "article_04_nghe-si-dinh-ma-tuy-can-mot-lan-ranh-do"
+  },
+  {
+    "question": "Ca sĩ Miu Lê bị phát hiện dương tính với ma túy ở đâu?",
+    "expected_answer": "Nữ ca sĩ Miu Lê (tên thật Lê Ánh Nhật, 35 tuổi) bị phát hiện dương tính với ma túy tại bãi tắm Tùng Thu, đặc khu Cát Hải, Hải Phòng vào khoảng 12 giờ 30 ngày 10/5.",
+    "expected_context": "article_05_giem-doc-cong-an-hai-phong-chi-dao-dieu-tra-vu-miu-le-duong-tinh-voi-ma-tuy"
+  },
+  {
+    "question": "Giám đốc Công an Hải Phòng đã chỉ đạo gì trong vụ Miu Lê?",
+    "expected_answer": "Thiếu tướng Bùi Quang Bình, Giám đốc Công an TP.Hải Phòng đã chỉ đạo Phòng CSĐT tội phạm về ma túy phối hợp Công an đặc khu Cát Hải điều tra, xử lý vụ ca sĩ Miu Lê cùng các đối tượng khác liên quan ma túy.",
+    "expected_context": "article_05_giem-doc-cong-an-hai-phong-chi-dao-dieu-tra-vu-miu-le-duong-tinh-voi-ma-tuy"
+  },
+  {
     "question": "Hình phạt cho tội tàng trữ trái phép chất ma tuý theo Điều 249 Bộ luật Hình sự?",
     "expected_answer": "Phạt tù từ 1 đến 5 năm đối với trường hợp tàng trữ từ 1g đến dưới 5g heroin hoặc cocaine, hoặc chất ma tuý khác với khối lượng tương đương.",
-    "expected_context": "Bộ luật Hình sự 2015, Điều 249"
+    "expected_context": "Luat-73-2021-QH14.md"
   },
   {
     "question": "Luật Phòng chống ma tuý 2021 quy định những hình thức cai nghiện nào?",
     "expected_answer": "Cai nghiện tự nguyện tại gia đình, cai nghiện tự nguyện tại cộng đồng, cai nghiện tự nguyện tại cơ sở cai nghiện, và cai nghiện bắt buộc tại cơ sở cai nghiện.",
-    "expected_context": "Luật Phòng chống ma tuý 2021, Chương V"
-  },
-  {
-    "question": "Danh mục các chất ma tuý thuộc nhóm I theo quy định pháp luật Việt Nam gồm những chất nào?",
-    "expected_answer": "Nhóm I gồm các chất ma tuý tuyệt đối cấm sử dụng trong y học và đời sống, bao gồm heroin, cocaine, methamphetamine, MDMA (ecstasy), cannabis (cần sa), và các chất tương tự.",
-    "expected_context": "Nghị định 57/2022/NĐ-CP, Phụ lục I"
-  },
-  {
-    "question": "Ca sĩ Chu Bin bị bắt vì lý do gì?",
-    "expected_answer": "Ca sĩ Chu Bin (tên thật Chu Đăng Thanh) bị Công an quận 10 TP HCM tạm giữ vì liên quan đến tổ chức hoặc sử dụng ma tuý vào tháng 6/2024.",
-    "expected_context": "VnExpress, 2024"
-  },
-  {
-    "question": "Châu Việt Cường bị xử lý như thế nào trong vụ án liên quan ma tuý?",
-    "expected_answer": "Nguyễn Việt Cường (Châu Việt Cường) bị TAND Hà Nội tuyên phạt 13 năm tù về tội giết người trong vụ việc liên quan đến sử dụng ma tuý.",
-    "expected_context": "VnExpress, Châu Việt Cường topic"
-  },
-  {
-    "question": "Nguyễn Đỗ Trúc Phương bị bắt vì liên quan đến hoạt động gì?",
-    "expected_answer": "Nguyễn Đỗ Trúc Phương (biệt danh 'Cô tiên từ thiện') bị Công an TP HCM khởi tố, bắt tạm giam để điều tra vì liên quan đến ma tuý vào tháng 11/2024.",
-    "expected_context": "Ngôi sao VnExpress, 2024"
-  },
-  {
-    "question": "Vụ 4 tiếp viên hàng không xách ma tuý liên quan đến những ai?",
-    "expected_answer": "Vụ án liên quan đến đường dây ma tuý lớn, trong đó có ca sĩ Chi Dân, người mẫu An Tây và Nguyễn Đỗ Trúc Phương. 227 người bị truy tố, cầm đầu là Hoàng Sỹ Thắng.",
-    "expected_context": "VnExpress, 2026"
-  },
-  {
-    "question": "Nghị định 105/2021/NĐ-CP hướng dẫn những nội dung gì của Luật Phòng chống ma tuý?",
-    "expected_answer": "Nghị định 105/2021/NĐ-CP hướng dẫn thi hành Luật Phòng, chống ma tuý về các biện pháp phòng ngừa, cai nghiện, quản lý sau cai nghiện, và chế độ chính sách cho người cai nghiện.",
-    "expected_context": "Nghị định 105/2021/NĐ-CP"
+    "expected_context": "Luat-73-2021-QH14.md"
   },
   {
     "question": "Tội vận chuyển trái phép chất ma tuý bị phạt tù bao nhiêu năm?",
     "expected_answer": "Tùy theo khối lượng ma tuý, tội vận chuyển trái phép chất ma tuý có thể bị phạt từ 2 năm đến tử hình. Trường hợp vận chuyển từ 100g heroin trở lên có thể bị phạt tử hình.",
-    "expected_context": "Bộ luật Hình sự 2015, Điều 250"
-  },
-  {
-    "question": "Luật Phòng chống ma tuý 2021 quy định gì về việc quản lý người nghiện ma tuý?",
-    "expected_answer": "Luật quy định quản lý người nghiện thông qua: lập danh sách quản lý, tư vấn cai nghiện, áp dụng biện pháp cai nghiện bắt buộc đối với người nghiện từ 18 tuổi trở lên, và quản lý sau cai nghiện.",
-    "expected_context": "Luật Phòng chống ma tuý 2021"
-  },
-  {
-    "question": "Các chất tiền chất ma tuý là gì và được quản lý như thế nào?",
-    "expected_answer": "Tiền chất ma tuý là các chất hóa học được sử dụng làm nguyên liệu trong sản xuất ma tuý. Chúng được quản lý theo danh mục và cấp phép sử dụng theo quy định của Chính phủ.",
-    "expected_context": "Luật Phòng chống ma tuý 2021"
-  },
-  {
-    "question": "Đường dây ma tuý lớn nhất lịch sử Việt Nam được phát hiện từ vụ nào?",
-    "expected_answer": "Đường dây ma tuý lớn nhất lịch sử được phát hiện từ vụ 4 tiếp viên hàng không xách ma tuý. Sau 10 tháng truy xét, Công an TP HCM triệt phá 150 đường dây, khởi tố 381 người, thu 130 kg ma tuý.",
-    "expected_context": "VnExpress, 2024"
+    "expected_context": "Luat-73-2021-QH14.md"
   },
   {
     "question": "Hình phạt cho tội sản xuất trái phép chất ma tuý là gì?",
     "expected_answer": "Sản xuất trái phép chất ma tuý bị phạt tù từ 2 năm đến tử hình, tùy theo khối lượng chất ma tuý sản xuất. Trường hợp sản xuất với khối lượng lớn có thể bị tịch thu toàn bộ tài sản.",
-    "expected_context": "Bộ luật Hình sự 2015, Điều 248"
-  },
-  {
-    "question": "Nghệ sĩ nào bị bắt vì liên quan đến ma tuý năm 2024?",
-    "expected_answer": "Năm 2024, ca sĩ Chu Bin (Chu Đăng Thanh) bị tạm giữ vì liên quan ma tuý, và Nguyễn Đỗ Trúc Phương ('Cô tiên từ thiện') bị khởi tố bắt tạm giam vì liên quan ma tuý.",
-    "expected_context": "VnExpress, 2024"
+    "expected_context": "Luat-73-2021-QH14.md"
   },
   {
     "question": "Bộ luật Hình sự 2015 Chương XX quy định những tội phạm nào về ma tuý?",
     "expected_answer": "Chương XX quy định các tội: Sản xuất, tàng trữ, vận chuyển, mua bán trái phép chất ma tuý; Tổ chức sử dụng trái phép chất ma tuý; Cưỡng ép người khác sử dụng trái phép chất ma tuý; Và các tội liên quan khác.",
-    "expected_context": "Bộ luật Hình sự 2015, Chương XX"
+    "expected_context": "Luat-73-2021-QH14.md"
+  },
+  {
+    "question": "Nghề sĩ vi phạm pháp luật liên quan ma túy cần phải trả giá như thế nào?",
+    "expected_answer": "Nghệ sĩ vi phạm pháp luật, đặc biệt với các hành vi liên quan đến ma túy, phải trả giá bằng chính vị trí của họ trong đời sống giải trí. Các đài truyền hình, nền tảng phát hành, nhãn hàng, đơn vị tổ chức biểu diễn cần có thái độ rõ ràng với nghệ sĩ vi phạm pháp luật.",
+    "expected_context": "article_04_nghe-si-dinh-ma-tuy-can-mot-lan-ranh-do"
   }
 ]

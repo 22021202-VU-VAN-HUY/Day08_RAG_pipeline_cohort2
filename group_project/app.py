@@ -145,15 +145,40 @@ if query:
                 try:
                     from openai import OpenAI
 
+                    # Try Mimo API first, fallback to OpenAI
                     mimo_key = os.getenv("MIMO_API_KEY", "")
                     mimo_base = os.getenv("MIMO_BASE_URL", "")
                     mimo_model = os.getenv("MIMO_MODEL", "mimo-v2.5-pro")
+                    openai_key = os.getenv("OPENAI_API_KEY", "")
 
+                    client = None
+                    model = None
+                    
+                    # Try Mimo first
                     if mimo_key and mimo_base:
-                        client = OpenAI(api_key=mimo_key, base_url=mimo_base)
-                        model = mimo_model
-                    else:
-                        raise ValueError("No API key configured")
+                        try:
+                            client = OpenAI(api_key=mimo_key, base_url=mimo_base)
+                            model = mimo_model
+                            # Quick test
+                            test_response = client.chat.completions.create(
+                                model=model,
+                                messages=[{"role": "user", "content": "test"}],
+                                temperature=0.1,
+                                max_tokens=1,
+                            )
+                            st.toast("📡 Using Mimo API", icon="✅")
+                        except Exception as mimo_error:
+                            st.warning(f"⚠️ Mimo API not available, using OpenAI fallback")
+                            client = None
+                    
+                    # Fallback to OpenAI
+                    if not client and openai_key:
+                        client = OpenAI(api_key=openai_key)
+                        model = "gpt-4o-mini"
+                        st.toast("📡 Using OpenAI API (Fallback)", icon="ℹ️")
+                    
+                    if not client:
+                        raise ValueError("No API key configured (both Mimo and OpenAI missing)")
 
                     response = client.chat.completions.create(
                         model=model,
