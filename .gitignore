@@ -1,0 +1,68 @@
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and local Python tooling
+.venv/
+venv/
+env/
+ENV/
+pip-wheel-metadata/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Local notebooks/runtime state
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# RAG/vector-store artifacts generated locally
+data/index/
+data/indexes/
+data/vector_store/
+data/vectorstore/
+data/chroma/
+data/faiss/
+data/weaviate/
+chroma/
+chromadb/
+weaviate/
+*.faiss
+*.index
+*.pkl
+*.pickle
+
+# Downloaded model/cache directories can be very large
+models/
+.cache/
+cache/
+hf_cache/
+sentence_transformers/
+
+# Keep assignment input/output data trackable:
+# - data/landing/legal and data/landing/news are required by tests.
+# - data/standardized markdown outputs are required by later tasks.
