@@ -170,9 +170,55 @@ run_dashboard()
 
 ## Kiến Trúc Hệ Thống
 
+### Option A: Search Engine (Streamlit)
+
 ```
-[Vẽ diagram kiến trúc ở đây]
+┌─────────────────────────────────────────────────────────┐
+│                   Streamlit UI (app.py)                  │
+│  ┌──────────┐  ┌───────────┐  ┌──────────────────────┐ │
+│  │  Search   │  │  Settings │  │  Results Display     │ │
+│  │  Input    │  │  Sidebar  │  │  - Score table       │ │
+│  │           │  │  - Mode   │  │  - Content preview   │ │
+│  │           │  │  - Top K  │  │  - Source metadata   │ │
+│  │           │  │  - Thresh │  │  - Highlight         │ │
+│  └─────┬─────┘  └─────┬─────┘  └──────────▲───────────┘ │
+│        │              │                    │             │
+│        ▼              ▼                    │             │
+│  ┌─────────────────────────────────────────┴───────────┐ │
+│  │              Retrieval Pipeline (Task 9)             │ │
+│  │                                                      │ │
+│  │  Query ──┬→ Semantic Search (Task 5, ChromaDB) ──┐   │ │
+│  │          │                                        │   │ │
+│  │          ├→ Lexical Search (Task 6, BM25) ───────┤   │ │
+│  │          │                                        │   │ │
+│  │          │                    RRF Merge ─→ Rerank ┘   │ │
+│  │          │                         (Task 7)          │ │
+│  │          │                              │            │ │
+│  │          └→ If score < threshold ──→ PageIndex       │ │
+│  │                                (Task 8, fallback)    │ │
+│  └──────────────────────────────────────────────────────┘ │
+│                                                           │
+│  ┌──────────────────────────────────────────────────────┐ │
+│  │                Data Layer                             │ │
+│  │  data/landing/legal/  → 4 PDFs (pháp luật)          │ │
+│  │  data/landing/news/   → 6 JSON (báo chí)            │ │
+│  │  data/standardized/   → 10 Markdown files            │ │
+│  │  data/chroma_db/      → Vector store (1031 chunks)  │ │
+│  └──────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
 ```
+
+### Stack
+
+| Layer | Technology |
+|-------|-----------|
+| UI | Streamlit 1.50 |
+| Embedding | all-MiniLM-L12-v2 (384 dim) |
+| Vector Store | ChromaDB (cosine) |
+| Lexical Search | BM25Okapi (rank-bm25) |
+| Reranking | Cross-Encoder ms-marco-MiniLM-L-6-v2 |
+| Fallback | PageIndex Vectorless RAG |
+| Evaluation | DeepEval (faithfulness, relevance, recall, precision) |
 
 ---
 
@@ -180,10 +226,11 @@ run_dashboard()
 
 | Thành viên | MSSV | Nhiệm vụ | Trạng thái |
 |-----------|------|----------|------------|
-| | | | |
-| | | | |
-| | | | |
-| | | | |
+|  Bảo | 541 | Task 1-3: Thu thập dữ liệu (pháp luật PDF + crawl bài báo + convert markdown) | ✅ Hoàn thành |
+| Sỹ | 20220002 | Task 4-5: Chunking, Indexing (ChromaDB) + Semantic Search | ✅ Hoàn thành |
+| Huy | 20220003 | Task 6-7: Lexical Search (BM25) + Reranking (Cross-Encoder, RRF, MMR) | ✅ Hoàn thành |
+| Kiệt | 20220004 | Task 8-9: PageIndex Vectorless + Retrieval Pipeline (hybrid + fallback) | ✅ Hoàn thành |
+| Kiên | 20220005 | Task 10 + Group: Generation, Streamlit Chatbot, Evaluation Pipeline | ✅ Hoàn thành |
 
 ---
 

@@ -13,5 +13,65 @@
     "question": "Danh mục các chất ma tuý thuộc nhóm I theo quy định pháp luật Việt Nam gồm những chất nào?",
     "expected_answer": "Nhóm I gồm các chất ma tuý tuyệt đối cấm sử dụng trong y học và đời sống, bao gồm heroin, cocaine, methamphetamine, MDMA (ecstasy), cannabis (cần sa), và các chất tương tự.",
     "expected_context": "Nghị định 57/2022/NĐ-CP, Phụ lục I"
+  },
+  {
+    "question": "Ca sĩ Chu Bin bị bắt vì lý do gì?",
+    "expected_answer": "Ca sĩ Chu Bin (tên thật Chu Đăng Thanh) bị Công an quận 10 TP HCM tạm giữ vì liên quan đến tổ chức hoặc sử dụng ma tuý vào tháng 6/2024.",
+    "expected_context": "VnExpress, 2024"
+  },
+  {
+    "question": "Châu Việt Cường bị xử lý như thế nào trong vụ án liên quan ma tuý?",
+    "expected_answer": "Nguyễn Việt Cường (Châu Việt Cường) bị TAND Hà Nội tuyên phạt 13 năm tù về tội giết người trong vụ việc liên quan đến sử dụng ma tuý.",
+    "expected_context": "VnExpress, Châu Việt Cường topic"
+  },
+  {
+    "question": "Nguyễn Đỗ Trúc Phương bị bắt vì liên quan đến hoạt động gì?",
+    "expected_answer": "Nguyễn Đỗ Trúc Phương (biệt danh 'Cô tiên từ thiện') bị Công an TP HCM khởi tố, bắt tạm giam để điều tra vì liên quan đến ma tuý vào tháng 11/2024.",
+    "expected_context": "Ngôi sao VnExpress, 2024"
+  },
+  {
+    "question": "Vụ 4 tiếp viên hàng không xách ma tuý liên quan đến những ai?",
+    "expected_answer": "Vụ án liên quan đến đường dây ma tuý lớn, trong đó có ca sĩ Chi Dân, người mẫu An Tây và Nguyễn Đỗ Trúc Phương. 227 người bị truy tố, cầm đầu là Hoàng Sỹ Thắng.",
+    "expected_context": "VnExpress, 2026"
+  },
+  {
+    "question": "Nghị định 105/2021/NĐ-CP hướng dẫn những nội dung gì của Luật Phòng chống ma tuý?",
+    "expected_answer": "Nghị định 105/2021/NĐ-CP hướng dẫn thi hành Luật Phòng, chống ma tuý về các biện pháp phòng ngừa, cai nghiện, quản lý sau cai nghiện, và chế độ chính sách cho người cai nghiện.",
+    "expected_context": "Nghị định 105/2021/NĐ-CP"
+  },
+  {
+    "question": "Tội vận chuyển trái phép chất ma tuý bị phạt tù bao nhiêu năm?",
+    "expected_answer": "Tùy theo khối lượng ma tuý, tội vận chuyển trái phép chất ma tuý có thể bị phạt từ 2 năm đến tử hình. Trường hợp vận chuyển từ 100g heroin trở lên có thể bị phạt tử hình.",
+    "expected_context": "Bộ luật Hình sự 2015, Điều 250"
+  },
+  {
+    "question": "Luật Phòng chống ma tuý 2021 quy định gì về việc quản lý người nghiện ma tuý?",
+    "expected_answer": "Luật quy định quản lý người nghiện thông qua: lập danh sách quản lý, tư vấn cai nghiện, áp dụng biện pháp cai nghiện bắt buộc đối với người nghiện từ 18 tuổi trở lên, và quản lý sau cai nghiện.",
+    "expected_context": "Luật Phòng chống ma tuý 2021"
+  },
+  {
+    "question": "Các chất tiền chất ma tuý là gì và được quản lý như thế nào?",
+    "expected_answer": "Tiền chất ma tuý là các chất hóa học được sử dụng làm nguyên liệu trong sản xuất ma tuý. Chúng được quản lý theo danh mục và cấp phép sử dụng theo quy định của Chính phủ.",
+    "expected_context": "Luật Phòng chống ma tuý 2021"
+  },
+  {
+    "question": "Đường dây ma tuý lớn nhất lịch sử Việt Nam được phát hiện từ vụ nào?",
+    "expected_answer": "Đường dây ma tuý lớn nhất lịch sử được phát hiện từ vụ 4 tiếp viên hàng không xách ma tuý. Sau 10 tháng truy xét, Công an TP HCM triệt phá 150 đường dây, khởi tố 381 người, thu 130 kg ma tuý.",
+    "expected_context": "VnExpress, 2024"
+  },
+  {
+    "question": "Hình phạt cho tội sản xuất trái phép chất ma tuý là gì?",
+    "expected_answer": "Sản xuất trái phép chất ma tuý bị phạt tù từ 2 năm đến tử hình, tùy theo khối lượng chất ma tuý sản xuất. Trường hợp sản xuất với khối lượng lớn có thể bị tịch thu toàn bộ tài sản.",
+    "expected_context": "Bộ luật Hình sự 2015, Điều 248"
+  },
+  {
+    "question": "Nghệ sĩ nào bị bắt vì liên quan đến ma tuý năm 2024?",
+    "expected_answer": "Năm 2024, ca sĩ Chu Bin (Chu Đăng Thanh) bị tạm giữ vì liên quan ma tuý, và Nguyễn Đỗ Trúc Phương ('Cô tiên từ thiện') bị khởi tố bắt tạm giam vì liên quan ma tuý.",
+    "expected_context": "VnExpress, 2024"
+  },
+  {
+    "question": "Bộ luật Hình sự 2015 Chương XX quy định những tội phạm nào về ma tuý?",
+    "expected_answer": "Chương XX quy định các tội: Sản xuất, tàng trữ, vận chuyển, mua bán trái phép chất ma tuý; Tổ chức sử dụng trái phép chất ma tuý; Cưỡng ép người khác sử dụng trái phép chất ma tuý; Và các tội liên quan khác.",
+    "expected_context": "Bộ luật Hình sự 2015, Chương XX"
   }
 ]
